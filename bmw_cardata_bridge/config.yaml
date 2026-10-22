@@ -1,0 +1,37 @@
+name: BMW CarData MQTT Bridge
+version: "1.0.0"
+slug: bmw_cardata_bridge
+description: Streams BMW CarData telemetry into your local MQTT broker
+url: https://github.com/dj0abr/bmw-mqtt-bridge
+arch:
+  - aarch64
+  - amd64
+  - armv7
+init: false
+startup: services
+boot: auto
+homeassistant_api: true
+services:
+  - mqtt:want
+options:
+  client_id: ""
+  gcid: ""
+  topic_prefix: bmw/
+  split_topics: true
+  mqtt_retain: true
+  status_stable_delay: 5
+  reauthenticate: false
+schema:
+  client_id: match(^[0-9a-fA-F-]{36}$)
+  gcid: match(^[0-9a-fA-F-]{36}$)
+  topic_prefix: str
+  split_topics: bool
+  mqtt_retain: bool
+  status_stable_delay: int(0,3600)
+  reauthenticate: bool
+  mqtt_host: str?
+  mqtt_port: port?
+  mqtt_user: str?
+  mqtt_password: password?
+  bmw_host: str?
+  bmw_port: port?

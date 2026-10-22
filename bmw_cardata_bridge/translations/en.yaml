@@ -1,0 +1,37 @@
+configuration:
+  client_id:
+    name: Client ID
+    description: CarData Client ID from the MyBMW portal (Personal Data → My Vehicles → CarData → Create Client ID).
+  gcid:
+    name: GCID
+    description: The USERNAME shown under CARDATA STREAM → Show Connection Details.
+  topic_prefix:
+    name: Topic prefix
+    description: Prefix for all topics published to your local broker.
+  split_topics:
+    name: Split topics
+    description: Also publish every data field on its own topic (prefix/vehicles/<VIN>/<field>). Easiest for Home Assistant sensors.
+  mqtt_retain:
+    name: Retain messages
+    description: Publish data topics with the retain flag so Home Assistant sees the last value after a restart.
+  status_stable_delay:
+    name: Status debounce (seconds)
+    description: How long the BMW connection must be down before status switches to false.
+  reauthenticate:
+    name: Log in again
+    description: Discard stored BMW tokens and start a new BMW login on the next start. Switches itself off afterwards.
+  mqtt_host:
+    name: MQTT host
+    description: Only needed if you don't use the Mosquitto broker add-on.
+  mqtt_port:
+    name: MQTT port
+  mqtt_user:
+    name: MQTT username
+  mqtt_password:
+    name: MQTT password
+  bmw_host:
+    name: BMW streaming host
+    description: Advanced. Defaults to customer.streaming-cardata.bmwgroup.com.
+  bmw_port:
+    name: BMW streaming port
+    description: Advanced. Defaults to 9000.
