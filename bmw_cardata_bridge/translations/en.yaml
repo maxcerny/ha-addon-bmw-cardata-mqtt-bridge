@@ -20,6 +20,12 @@ configuration:
   reauthenticate:
     name: Log in again
     description: Discard stored BMW tokens and start a new BMW login on the next start. Switches itself off afterwards.
+  ha_discovery:
+    name: Create Home Assistant entities
+    description: Create entities via MQTT discovery (one BMW device per car). Leave off if you use the BMW CarData integration (bmw-cardata-ha), which creates its own. Needs split topics.
+  discovery_prefix:
+    name: Discovery prefix
+    description: Home Assistant's MQTT discovery prefix. Only change it if you changed it in the MQTT integration.
   mqtt_host:
     name: MQTT host
     description: Only needed if you don't use the Mosquitto broker add-on.

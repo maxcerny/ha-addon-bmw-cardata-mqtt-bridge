@@ -20,11 +20,12 @@ RUN git init -q . \
 # Runtime stage
 FROM $BUILD_FROM
 
-RUN apk add --no-cache mosquitto-libs libcurl libstdc++ ca-certificates curl jq openssl
+RUN apk add --no-cache mosquitto-libs libcurl libstdc++ ca-certificates curl jq openssl \
+    python3 py3-paho-mqtt
 
 COPY --from=builder /build/bmw_mqtt_bridge /usr/bin/bmw_mqtt_bridge
 COPY rootfs /
 
-RUN chmod a+x /usr/bin/run.sh /usr/bin/bmw_auth.sh
+RUN chmod a+x /usr/bin/run.sh /usr/bin/bmw_auth.sh /usr/bin/bmw_discovery.py
 
 CMD [ "/usr/bin/run.sh" ]

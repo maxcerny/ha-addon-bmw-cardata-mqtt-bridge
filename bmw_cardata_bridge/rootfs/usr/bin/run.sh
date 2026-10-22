@@ -83,6 +83,24 @@ if [[ -f "$CLIENT_FILE" && "$(cat "$CLIENT_FILE")" != "$CLIENT_ID" ]]; then
 fi
 echo "$CLIENT_ID" > "$CLIENT_FILE"
 
+# ---------- optional Home Assistant MQTT discovery ----------
+if bashio::config.true 'ha_discovery'; then
+    if ! bashio::config.true 'split_topics'; then
+        bashio::log.warning "ha_discovery needs split_topics enabled; no entities will be created."
+    fi
+    PREFIX="$(bashio::config 'topic_prefix' 'bmw/')"
+    [[ "$PREFIX" == */ ]] || PREFIX="${PREFIX}/"
+    (
+        export MQTT_HOST MQTT_PORT MQTT_USER MQTT_PASSWORD
+        export TOPIC_PREFIX="$PREFIX" DISCOVERY_PREFIX="$(bashio::config 'discovery_prefix' 'homeassistant')"
+        while true; do
+            python3 /usr/bin/bmw_discovery.py
+            bashio::log.warning "Discovery service exited, restarting in 10 seconds..."
+            sleep 10
+        done
+    ) &
+fi
+
 # ---------- main loop ----------
 while true; do
     if [[ ! -s "${STATE_DIR}/id_token.txt" || ! -s "${STATE_DIR}/refresh_token.txt" ]]; then

@@ -56,10 +56,24 @@ until the first values appear. Use **MQTT Explorer** or
 *Settings → Devices & services → MQTT → Configure → Listen to a topic* with
 `bmw/#` to see what your car sends.
 
-## Example sensors
+## Home Assistant entities
 
-The add-on does not create entities by itself. Add MQTT sensors to your
-`configuration.yaml`, using the field names you see on your broker:
+There are three ways to get entities:
+
+- **BMW CarData integration** ([bmw-cardata-ha](https://github.com/kvanbiesen/bmw-cardata-ha)):
+  it creates its own entities. Leave **ha_discovery** off to avoid duplicates.
+- **ha_discovery: true**: the add-on announces every data field via MQTT
+  discovery. You get one **BMW** device with sensors such as
+  `sensor.bmw_fuel_level`, `sensor.bmw_range`, `sensor.bmw_mileage`,
+  `binary_sensor.bmw_lock`, door/window/hood binary sensors, tyre pressures in
+  bar and `device_tracker.bmw_location`. Fields without a built-in definition
+  get a generic entity named after the field. Needs **split_topics**.
+  Entities appear as soon as BMW sends the field for the first time.
+- **Manual MQTT sensors** in `configuration.yaml`, as below.
+
+### Manual sensor example
+
+Use the field names you see on your broker:
 
 ```yaml
 mqtt:
@@ -88,6 +102,8 @@ mqtt:
 | `mqtt_retain` | Publish data topics retained |
 | `status_stable_delay` | Seconds the BMW connection must be down before `status` becomes `false` |
 | `reauthenticate` | Start a new BMW login on next start (switches itself off) |
+| `ha_discovery` | Create Home Assistant entities via MQTT discovery (off by default) |
+| `discovery_prefix` | Home Assistant's MQTT discovery prefix, default `homeassistant` |
 | `mqtt_host`, `mqtt_port`, `mqtt_user`, `mqtt_password` | Only for brokers other than the Mosquitto add-on |
 | `bmw_host`, `bmw_port` | Advanced: BMW streaming endpoint |
 
