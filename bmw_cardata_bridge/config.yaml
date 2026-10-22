@@ -6,10 +6,8 @@ url: https://github.com/dj0abr/bmw-mqtt-bridge
 arch:
   - aarch64
   - amd64
-  - armv7
 init: false
 startup: services
-boot: auto
 homeassistant_api: true
 services:
   - mqtt:want
